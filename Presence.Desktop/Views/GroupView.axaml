@@ -1,0 +1,94 @@
+<UserControl xmlns="https://github.com/avaloniaui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+			 xmlns:vm="using:Presence.Desktop.ViewModels"
+             mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+             x:Class="Presence.Desktop.GroupView"
+			 x:DataType="vm:GroupViewModel">
+	<Design.DataContext>
+		<vm:GroupViewModel/>
+	</Design.DataContext>
+
+	<!--Начало верстки-->
+	<Grid ShowGridLines="False">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="2*"/>
+		</Grid.ColumnDefinitions>
+
+		<!--Меню с комбо боксами и кнопками-->
+		<Border Grid.Column="0" BorderBrush="Gray" BorderThickness="1" Margin="10">
+			<StackPanel Orientation="Vertical" Grid.Column="0"
+					Spacing="10" Margin="10">
+				<ComboBox ItemsSource="{Binding Groups}" SelectedValue="{Binding SelectedGroupItem}"
+						  Width="150"
+						  PlaceholderText="Select Group">
+					<ComboBox.ItemTemplate>
+						<DataTemplate>
+							<TextBlock Text="{Binding Name}"/>
+						</DataTemplate>
+					</ComboBox.ItemTemplate>
+				</ComboBox>			
+
+				<!--Кнопка вставки csv студентов?-->
+				<Button Content="Add students csv" Command="{Binding OpenFileDialog}" Width="150"/>
+
+				<!--Комбо бокс для фильтрации по ТЗ-->
+				<ComboBox PlaceholderText="Filter by Name" Width="150">
+					<ComboBoxItem Content="Asc"/>
+					<ComboBoxItem Content="Desc"/>
+					<ComboBoxItem Content="Without Filter"/>
+				</ComboBox>
+			</StackPanel>
+		</Border>
+
+
+		<Grid Grid.Column="1">
+			<Grid.RowDefinitions>
+				<RowDefinition Height="*"/>
+				<RowDefinition Height="0.1*"/>
+			</Grid.RowDefinitions>
+			
+			<Border Grid.Row="0" Margin="10" BorderBrush="Gray" BorderThickness="1">
+				<StackPanel Orientation="Vertical" Grid.Column="1" Spacing="10" Margin="10">
+					<TextBlock Text="Students Collection"/>
+
+					<!--Список со студентами-->
+					<ListBox ItemsSource="{Binding StudentsCollection}" Background="LightBlue"
+							 SelectionMode="Multiple"
+							 SelectedItems="{Binding SelectedRecords}">
+						<ListBox.ContextMenu>
+							<ContextMenu>
+								<MenuItem Header="Удалить выделенные записи"
+										  Command="{Binding DeleteSelectedItems}"
+										  IsVisible="{Binding CanDelete}"/>
+								<MenuItem Header="Удалить"
+										  Command="{Binding DeleteSelectedItem}"
+										  IsVisible="{Binding CanEdit}"/>
+								<MenuItem Header="Изменить"
+										  Command="{Binding EditSelectedItem}"
+										  IsVisible="{Binding CanEdit}"/>
+							</ContextMenu>
+						</ListBox.ContextMenu>
+						<ListBox.ItemTemplate>
+							<DataTemplate>
+								<StackPanel>
+									<TextBlock Text="{Binding Name}"/>
+								</StackPanel>
+							</DataTemplate>
+						</ListBox.ItemTemplate>
+					</ListBox>
+
+				</StackPanel>
+			</Border>
+
+			<Button Content="Delete all students from selected group" 
+					Margin="10 0 0 10"
+					Grid.Row="1"
+					Command="{Binding DeleteStudentsFromGroupCommand}"/>
+			
+		</Grid>
+	</Grid>
+	<!--Конец верстки-->
+</UserControl>

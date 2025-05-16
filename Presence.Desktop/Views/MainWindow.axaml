@@ -1,0 +1,22 @@
+<Window xmlns="https://github.com/avaloniaui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:Presence.Desktop.ViewModels"
+		xmlns:app="clr-namespace:Presence.Desktop"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="Presence.Desktop.Views.MainWindow"
+        x:DataType="vm:MainWindowViewModel"
+		xmlns:reactiveUi="http://reactiveui.net"
+        Icon="/Assets/avalonia-logo.ico"
+        Title="Presence.Desktop">
+
+	<DockPanel>
+		<reactiveUi:RoutedViewHost Router="{Binding Router}" DockPanel.Dock="Right" Background="AliceBlue">
+			<reactiveUi:RoutedViewHost.ViewLocator>
+				<app:ViewLocator/>
+			</reactiveUi:RoutedViewHost.ViewLocator>
+		</reactiveUi:RoutedViewHost>
+	</DockPanel>
+
+</Window>
